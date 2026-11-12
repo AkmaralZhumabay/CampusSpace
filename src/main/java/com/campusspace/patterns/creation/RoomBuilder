@@ -1,0 +1,57 @@
+package com.campusspace.patterns.creation;
+
+import com.campusspace.model.Room;
+
+public class RoomBuilder {
+
+    private String name;
+    private int capacity = 1;
+    private String location = "";
+    private boolean hasProjector = false;
+    private boolean hasWhiteboard = false;
+
+    public RoomBuilder setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public RoomBuilder setCapacity(int capacity) {
+        this.capacity = capacity;
+        return this;
+    }
+
+    public RoomBuilder setLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
+    public RoomBuilder setProjector(boolean hasProjector) {
+        this.hasProjector = hasProjector;
+        return this;
+    }
+
+    public RoomBuilder setWhiteboard(boolean hasWhiteboard) {
+        this.hasWhiteboard = hasWhiteboard;
+        return this;
+    }
+
+    public Room build() {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Room name is required");
+        }
+
+        if (capacity <= 0) {
+            throw new IllegalArgumentException(
+                    "Capacity must be greater than zero");
+        }
+
+        return new Room(
+                name,
+                capacity,
+                location,
+                hasProjector,
+                hasWhiteboard
+        );
+    }
+}
