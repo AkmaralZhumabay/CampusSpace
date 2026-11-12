@@ -1,0 +1,76 @@
+package com.campusspace.controller;
+
+import com.campusspace.model.Room;
+import com.campusspace.service.RoomService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import com.campusspace.dto.RoomMetadataRequest;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/rooms")
+public class RoomController {
+
+    private final RoomService roomService;
+
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
+    @GetMapping
+    public List<Room> getAllRooms() {
+        return roomService.getAllRooms();
+    }
+
+    @GetMapping("/{id}")
+    public Room getRoom(@PathVariable Long id) {
+        return roomService.getRoomById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Room createRoom(@RequestBody Room room) {
+        return roomService.addRoom(room);
+    }
+
+    @PutMapping("/{id}")
+    public Room updateRoom(@PathVariable Long id,
+                           @RequestBody Room room) {
+        return roomService.updateRoom(id, room);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRoom(@PathVariable Long id) {
+        roomService.deleteRoom(id);
+    }
+
+    public record RoomPresetRequest(
+            String type,
+            String name,
+            String location
+    ) {}
+
+    @PostMapping("/presets")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Room createFromPreset(
+            @RequestBody RoomPresetRequest request) {
+
+        return roomService.createRoomByType(
+                request.type(),
+                request.name(),
+                request.location()
+        );
+    }
+
+    @PutMapping("/{id}/metadata")
+    public Room updateRoomMetadata(
+            @PathVariable Long id,
+            @RequestBody RoomMetadataRequest request) {
+
+        return roomService.updateRoomMetadata(id, request);
+    }
+
+}
