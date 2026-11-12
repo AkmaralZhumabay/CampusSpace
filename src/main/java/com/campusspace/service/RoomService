@@ -1,0 +1,200 @@
+package com.campusspace.service;
+
+import com.campusspace.model.Room;
+import com.campusspace.repository.RoomRepository;
+import org.springframework.stereotype.Service;
+import com.campusspace.patterns.creation.RoomFactory;
+import com.campusspace.patterns.creation.RoomFactoryProvider;
+
+import com.campusspace.dto.RoomMetadataRequest;
+import com.campusspace.policy.RoomAccessPolicy;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.Locale;
+
+
+import java.util.List;
+
+@Service
+public class RoomService {
+
+    private final RoomRepository roomRepository;
+    private final RoomAccessPolicy roomAccessPolicy;
+
+
+    public RoomService(
+            RoomRepository roomRepository,
+            RoomAccessPolicy roomAccessPolicy) {
+
+        this.roomRepository = roomRepository;
+        this.roomAccessPolicy = roomAccessPolicy;
+    }
+
+
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
+    public Room getRoomById(Long id) {
+        return roomRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Room not found: " + id));
+    }
+
+    public Room addRoom(Room room) {
+        validateRoom(room);
+        return roomRepository.save(room);
+    }
+
+    public Room updateRoom(Long id, Room updatedRoom) {
+        validateRoom(updatedRoom);
+
+        Room room = getRoomById(id);
+        room.setName(updatedRoom.getName());
+        room.setCapacity(updatedRoom.getCapacity());
+        room.setLocation(updatedRoom.getLocation());
+        room.setHasProjector(updatedRoom.isHasProjector());
+        room.setHasWhiteboard(updatedRoom.isHasWhiteboard());
+
+        return roomRepository.save(room);
+    }
+
+    public void deleteRoom(Long id) {
+        Room room = getRoomById(id);
+        roomRepository.delete(room);
+    }
+
+    private void validateRoom(Room room) {
+        if (room == null) {
+            throw new IllegalArgumentException("Room cannot be null");
+        }
+
+        if (room.getName() == null || room.getName().isBlank()) {
+            throw new IllegalArgumentException("Room name is required");
+        }
+
+        if (room.getCapacity() <= 0) {
+            throw new IllegalArgumentException(
+                    "Room capacity must be greater than zero");
+        }
+    }
+
+    public Room createRoomByType(
+            String type,
+            String name,
+            String location) {
+
+        RoomFactory factory =
+                RoomFactoryProvider.getFactory(type);
+
+        Room room = factory.createRoom(name, location);
+
+        return addRoom(room);
+    }
+
+    @Transactional
+    public Room updateRoomMetadata(
+            Long id,
+            RoomMetadataRequest request) {
+
+        if (request == null) {
+            throw new IllegalArgumentException(
+                    "Room data is required");
+        }
+
+        Room room = getRoomById(id);
+
+        if (request.building() == null ||
+                request.block() == null ||
+                request.roomNumber() == null ||
+                request.floor() == null ||
+                request.capacity() == null ||
+                request.bookable() == null ||
+                request.hasProjector() == null ||
+                request.hasWhiteboard() == null) {
+            throw new IllegalArgumentException(
+                    "All room fields are required");
+        }
+
+        String building = request.building()
+                .trim().toUpperCase(Locale.ROOT);
+
+        String block = request.block()
+                .trim().toUpperCase(Locale.ROOT);
+
+        String roomNumber = request.roomNumber()
+                .trim().toUpperCase(Locale.ROOT);
+
+        if (!building.matches("C[123]")) {
+            throw new IllegalArgumentException(
+                    "Building must be C1, C2 or C3");
+        }
+
+        if (!(block.equals(building) ||
+                block.matches(
+                        java.util.regex.Pattern.quote(building)
+                                + "\\.[0-9]+"))) {
+            throw new IllegalArgumentException(
+                    "Block does not match building");
+        }
+
+        if (request.floor() != 2) {
+            throw new IllegalArgumentException(
+                    "Currently only Floor 2 is supported");
+        }
+
+        if (!roomNumber.matches("\\d{3}[A-Z]?")) {
+            throw new IllegalArgumentException(
+                    "Invalid room number");
+        }
+
+        if (request.capacity() <= 0) {
+            throw new IllegalArgumentException(
+                    "Capacity must be greater than zero");
+        }
+
+        boolean duplicate = roomRepository.findAll()
+                .stream()
+                .anyMatch(other ->
+                        !other.getId().equals(id)
+                                && building.equalsIgnoreCase(other.getBuilding())
+                                && block.equalsIgnoreCase(other.getBlock())
+                                && request.floor().equals(other.getFloor())
+                                && roomNumber.equalsIgnoreCase(other.getRoomNumber())
+                );
+
+        if (duplicate) {
+            throw new IllegalArgumentException(
+                    "Room already exists in this block");
+        }
+
+        Room candidate = new Room();
+        candidate.setBuilding(building);
+        candidate.setBlock(block);
+        candidate.setFloor(request.floor());
+        candidate.setRoomNumber(roomNumber);
+        candidate.setBookable(request.bookable());
+
+        if (request.bookable()
+                && !roomAccessPolicy.isBookable(candidate)) {
+            throw new IllegalArgumentException(
+                    "This room cannot be marked as bookable");
+        }
+
+        room.setBuilding(building);
+        room.setBlock(block);
+        room.setFloor(request.floor());
+        room.setRoomNumber(roomNumber);
+        room.setCapacity(request.capacity());
+        room.setBookable(request.bookable());
+
+        room.setHasProjector(request.hasProjector());
+        room.setHasWhiteboard(request.hasWhiteboard());
+
+        // Keep legacy fields synchronized for the current GUI.
+        room.setName(roomNumber);
+        room.setLocation(block + ", Floor " + request.floor());
+
+        return roomRepository.save(room);
+    }
+
+}
