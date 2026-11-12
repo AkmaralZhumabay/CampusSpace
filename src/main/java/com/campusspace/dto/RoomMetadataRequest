@@ -1,0 +1,13 @@
+package com.campusspace.dto;
+
+public record RoomMetadataRequest(
+        String building,
+        String block,
+        Integer floor,
+        String roomNumber,
+        Integer capacity,
+        Boolean bookable,
+        Boolean hasProjector,
+        Boolean hasWhiteboard
+) {
+}
