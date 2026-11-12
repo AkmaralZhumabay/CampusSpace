@@ -1,0 +1,133 @@
+package com.campusspace.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "rooms")
+public class Room {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private int capacity;
+
+    private String location;
+
+    private boolean hasProjector;
+
+    private boolean hasWhiteboard;
+
+    // New fields for the AITU campus map
+    private String building;
+
+    private String block;
+
+    private Integer floor;
+
+    private String roomNumber;
+
+    // Null means this legacy room has not been reviewed yet
+    private Boolean bookable;
+
+    public Room() {
+    }
+
+    // Keep the old constructor for Factory and Builder
+    public Room(String name, int capacity, String location,
+                boolean hasProjector, boolean hasWhiteboard) {
+        this.name = name;
+        this.capacity = capacity;
+        this.location = location;
+        this.hasProjector = hasProjector;
+        this.hasWhiteboard = hasWhiteboard;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isHasProjector() {
+        return hasProjector;
+    }
+
+    public void setHasProjector(boolean hasProjector) {
+        this.hasProjector = hasProjector;
+    }
+
+    public boolean isHasWhiteboard() {
+        return hasWhiteboard;
+    }
+
+    public void setHasWhiteboard(boolean hasWhiteboard) {
+        this.hasWhiteboard = hasWhiteboard;
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public void setBlock(String block) {
+        this.block = block;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public Boolean getBookable() {
+        return bookable;
+    }
+
+    public void setBookable(Boolean bookable) {
+        this.bookable = bookable;
+    }
+}
