@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>CampusSpace</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+
+<header class="site-header">
+    <div class="header-inner">
+        <div class="brand-area">
+            <div class="brand-icon">C</div>
+            <div>
+                <h1>CampusSpace</h1>
+                <p>ASTANA IT UNIVERSITY</p>
+            </div>
+        </div>
+
+        <div class="header-content">
+            <span class="eyebrow">
+                SMART CAMPUS EXPERIENCE
+            </span>
+            <h2>Your space to study, meet and create.</h2>
+            <p>
+                Find a classroom, explore the campus
+                and book your next study session.
+            </p>
+        </div>
+
+        <div class="header-label">
+            <span class="status-dot"></span>
+            FLOOR 02 · C1 CAMPUS
+        </div>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <section class="panel left-panel">
+        <h2>Available Rooms</h2>
+
+        <div class="search-section">
+            <h3>Find a Room</h3>
+
+            <form id="searchForm">
+                <label for="peopleCount">Number of Students</label>
+                <input type="number"
+                       id="peopleCount"
+                       min="1"
+                       max="1000"
+                       value="5"
+                       required>
+
+                <label for="searchStrategy">Search Strategy</label>
+                <select id="searchStrategy">
+                    <option value="BEST_FIT">Best Fit</option>
+                    <option value="LARGEST_FIRST">Largest First</option>
+                </select>
+
+                <button type="submit" id="searchBtn">
+                    Search Rooms
+                </button>
+            </form>
+
+            <button type="button" id="resetSearchBtn">
+                Show All Rooms
+            </button>
+
+            <p id="searchMessage" role="status"></p>
+        </div>
+
+        <button id="loadRoomsBtn">Refresh Rooms</button>
+        <div id="roomList"></div>
+    </section>
+
+    <section class="panel right-panel">
+        <h2>Campus Map</h2>
+        <p class="floor-label">AITU — Floor 2 (bookable rooms only)</p>
+
+
+        <div id="mapArea" class="real-map-wrapper">
+            <img src="/images/aitu-floor2.png"
+                 alt="AITU Second Floor"
+                 class="campus-map-image">
+
+            <button type="button"
+                    class="map-hotspot"
+                    data-room-name="237L"
+                    data-block="C1.2"
+                    style="left:40%;top:35%">
+                237L
+            </button>
+
+            <button type="button"
+                    class="map-hotspot"
+                    data-room-name="233L"
+                    data-block="C1.2"
+                    style="left:57%;top:35%">
+                233L
+            </button>
+
+            <button type="button"
+                    class="map-hotspot"
+                    data-room-name="242K"
+                    data-block="C1.2"
+                    style="left:44.5%;top:54%">
+                242K
+            </button>
+
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="240K"
+                    data-block="C1.2"
+                    style="left:44%;top:48%">
+                240K
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="243K"
+                    data-block="C1.2"
+                    style="left:44%;top:59%">
+                243K
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="244K"
+                    data-block="C1.2"
+                    style="left:32%;top:71%">
+                244K
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="245"
+                    data-block="C1.2"
+                    style="left:42%;top:70%">
+                245
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="248L"
+                    data-block="C1.2"
+                    style="left:55%;top:48%">
+                248L
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="250L"
+                    data-block="C1.2"
+                    style="left:55%;top:54%">
+                250L
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="252K"
+                    data-block="C1.2"
+                    style="left:55%;top:60%">
+                252K
+            </button>
+
+            <button type="button" class="map-hotspot"
+                    data-room-name="254"
+                    data-block="C1.2"
+                    style="left:56%;top:71%">
+                254
+            </button>
+
+        </div>
+
+
+        <div id="roomDetails" class="room-details">
+            <h3>Room Details</h3>
+            <p>Select a room from the map or list.</p>
+        </div>
+
+
+        <section class="booking-section">
+            <h2>Book a Room</h2>
+
+            <form id="bookingForm">
+                <label for="studentSelect">Student</label>
+                <select id="studentSelect" required>
+                    <option value="">Select student</option>
+                </select>
+
+                <label for="selectedRoom">Selected Room</label>
+                <input type="text" id="selectedRoom"
+                       placeholder="Select a room above"
+                       readonly required>
+
+                <label for="bookingDate">Date</label>
+                <input type="date" id="bookingDate" required>
+
+                <label for="startTime">Start Time</label>
+                <input type="time" id="startTime" required>
+
+                <label for="endTime">End Time</label>
+                <input type="time" id="endTime" required>
+
+                <button type="submit" id="bookBtn">
+                    Book Room
+                </button>
+            </form>
+
+            <div id="bookingMessage"
+                 role="status" aria-live="polite"></div>
+        </section>
+    </section>
+
+
+    <section class="panel schedule-panel">
+        <h2>University Schedule</h2>
+
+        <p>
+            Import a demo class schedule from CSV.
+            Rooms with scheduled classes cannot be booked
+            during those hours.
+        </p>
+
+        <form id="scheduleImportForm">
+            <label for="scheduleFile">Choose CSV File</label>
+
+            <input
+                    type="file"
+                    id="scheduleFile"
+                    accept=".csv,text/csv"
+                    required
+            >
+
+            <button type="submit" id="importScheduleBtn">
+                Import Schedule
+            </button>
+        </form>
+
+        <p id="scheduleMessage"
+           role="status"
+           aria-live="polite"></p>
+
+        <h3>Scheduled Classes</h3>
+
+        <button type="button" id="refreshScheduleBtn">
+            Refresh Schedule
+        </button>
+
+        <div id="scheduleList">
+            No scheduled classes loaded.
+        </div>
+    </section>
+
+
+    <section class="panel notifications-panel">
+        <div class="notifications-header">
+            <h2>Notifications</h2>
+            <button type="button" id="refreshNotificationsBtn">
+                Refresh
+            </button>
+        </div>
+
+        <p>Recent booking activity</p>
+
+        <div id="notificationsList" aria-live="polite">
+            No notifications yet.
+        </div>
+    </section>
+
+
+    <section class="panel bookings-panel">
+        <h2>My Bookings</h2>
+        <p>View and cancel your reservations.</p>
+        <div id="bookingsList"></div>
+    </section>
+
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

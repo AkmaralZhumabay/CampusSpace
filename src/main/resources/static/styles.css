@@ -1,0 +1,742 @@
+/* CampusSpace - Modern Dashboard Design */
+
+:root {
+    --navy: #142b50;
+    --navy-light: #234574;
+    --blue: #3978dd;
+    --blue-soft: #edf4ff;
+    --background: #f3f6fb;
+    --surface: #ffffff;
+    --text: #18243a;
+    --muted: #718096;
+    --border: #e3e9f2;
+    --green: #15956b;
+    --red: #d94c54;
+    --radius: 16px;
+    --shadow: 0 5px 24px rgba(28, 48, 80, 0.055);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+    line-height: 1.5;
+}
+
+/* Header */
+
+header {
+    background: linear-gradient(
+        115deg,
+        #102747,
+        #1c416f
+    );
+    color: white;
+    text-align: left;
+    padding: 30px max(28px, calc((100% - 1480px) / 2));
+    border-bottom: 3px solid #4387e8;
+}
+
+header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin: 0 0 5px;
+    color: white;
+}
+
+header p {
+    color: #c2d4ee;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Main layout */
+
+.container {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.85fr)
+                           minmax(0, 1.85fr);
+    align-items: start;
+    gap: 22px;
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 30px 26px 60px;
+}
+
+.panel {
+    width: auto;
+    min-width: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: var(--shadow);
+}
+
+.left-panel,
+.right-panel {
+    width: auto;
+}
+
+.panel h2 {
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+    margin: 0 0 18px;
+    color: var(--text);
+}
+
+.panel h3 {
+    font-size: 16px;
+    color: var(--text);
+}
+
+.panel > p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Search */
+
+.search-section {
+    background: var(--blue-soft);
+    border: 1px solid #dce9fc;
+    border-radius: 13px;
+    padding: 20px;
+    margin: 14px 0 22px;
+}
+
+.search-section h3 {
+    font-size: 17px;
+    margin: 0 0 17px;
+}
+
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+label,
+#searchForm label {
+    font-size: 13px;
+    font-weight: 650;
+    color: #354760;
+}
+
+input,
+select,
+#searchForm input,
+#searchForm select,
+#bookingForm input,
+#bookingForm select {
+    width: 100%;
+    min-width: 0;
+    background: white;
+    color: var(--text);
+    border: 1px solid #d7e0ed;
+    border-radius: 9px;
+    padding: 12px 13px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(57, 120, 221, .12);
+}
+
+input[readonly] {
+    background: #f4f7fb;
+}
+
+/* Buttons */
+
+button {
+    font-family: inherit;
+    transition: background .2s, transform .2s,
+                box-shadow .2s;
+}
+
+button:focus-visible {
+    outline: 3px solid #8cbaff;
+    outline-offset: 2px;
+}
+
+#searchBtn,
+#bookBtn,
+#importScheduleBtn,
+#refreshNotificationsBtn,
+#refreshScheduleBtn,
+#loadRoomsBtn,
+#createRoomBtn {
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+#searchBtn:hover,
+#bookBtn:hover,
+#importScheduleBtn:hover,
+#refreshNotificationsBtn:hover,
+#refreshScheduleBtn:hover,
+#loadRoomsBtn:hover {
+    background: var(--navy-light);
+    transform: translateY(-1px);
+}
+
+#resetSearchBtn {
+    background: white;
+    color: var(--navy);
+    border: 1px solid #cbd8ea;
+    border-radius: 9px;
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+
+#resetSearchBtn:hover {
+    background: #eef4fd;
+}
+
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Room cards */
+
+#roomList {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin-top: 15px;
+}
+
+.room-card {
+    margin: 0;
+    padding: 17px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.room-card:hover {
+    background: var(--blue-soft);
+    border-color: #8fb8f3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(35, 69, 116, .08);
+}
+
+.room-card strong {
+    display: block;
+    font-size: 14px;
+    color: var(--navy);
+}
+
+.room-card p {
+    font-size: 12px;
+    margin: 8px 0 0;
+    color: var(--muted);
+}
+
+/* Campus map */
+
+.floor-label {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: -8px;
+    margin-bottom: 16px;
+}
+
+.real-map-wrapper {
+    width: 100%;
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    background: #192230;
+    border: 1px solid #2d3c50;
+    border-radius: 13px;
+    margin-bottom: 22px;
+}
+
+.campus-map-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.map-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: rgba(30, 75, 146, .94);
+    color: white;
+    border: 1.5px solid white;
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 10px;
+    font-weight: 750;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.map-hotspot:hover {
+    background: #458ce9;
+    box-shadow: 0 0 0 4px rgba(69, 140, 233, .2);
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.map-hotspot.selected {
+    background: #ffca62 !important;
+    color: #172b45 !important;
+    border-color: white;
+}
+
+.map-hotspot.search-match:not(.inactive) {
+    background: var(--green);
+}
+
+.map-hotspot.inactive {
+    background: #697589;
+    opacity: .7;
+    cursor: not-allowed;
+}
+
+/* Room details */
+
+.room-details {
+    border-top: 1px solid var(--border);
+    padding: 20px 0 0;
+    margin: 0;
+}
+
+.room-details h3 {
+    font-size: 17px;
+    margin: 0 0 12px;
+}
+
+.room-details p {
+    font-size: 13px;
+    color: #52637a;
+    margin: 8px 0;
+}
+
+/* Booking form */
+
+.booking-section {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 24px;
+}
+
+.booking-section h2 {
+    margin-bottom: 20px;
+}
+
+#bookingForm {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+}
+
+#bookingForm label {
+    grid-column: 1 / -1;
+    margin: 5px 0 -7px;
+}
+
+#bookingForm > select,
+#bookingForm > input,
+#bookingForm > button {
+    grid-column: 1 / -1;
+}
+
+#bookBtn {
+    width: 100%;
+    margin-top: 12px;
+    font-size: 15px;
+    padding: 15px;
+    background: var(--blue);
+}
+
+#bookBtn:hover {
+    background: #2969cf;
+}
+
+.message {
+    padding: 13px 15px;
+    border-radius: 10px;
+    margin-top: 14px;
+    font-size: 13px;
+}
+
+.message:empty {
+    display: none;
+}
+
+.message.success {
+    background: #e4f7ee;
+    color: #11744d;
+}
+
+.message.error {
+    background: #fff0f0;
+    color: #bb3540;
+}
+
+/* Lower panels */
+
+.schedule-panel,
+.notifications-panel,
+.bookings-panel,
+.create-room-panel {
+    width: auto;
+}
+
+.schedule-panel {
+    grid-column: 1;
+}
+
+.notifications-panel {
+    grid-column: 2;
+}
+
+.bookings-panel {
+    grid-column: 1 / -1;
+}
+
+.booking-card,
+.schedule-card,
+.notification-item {
+    background: #f9fbfe;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 0 0 12px;
+    box-shadow: none;
+}
+
+.booking-card h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+}
+
+.booking-card p,
+.schedule-card p {
+    color: #63738a;
+    font-size: 13px;
+    margin: 7px 0;
+}
+
+.cancel-btn {
+    background: #fff0f0;
+    color: #c43c45;
+    border: 1px solid #f4c9cd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 650;
+}
+
+.cancel-btn:hover {
+    background: #fbdfe1;
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification-item {
+    font-size: 13px;
+    color: #354760;
+}
+
+#scheduleFile {
+    background: #f9fbfe;
+    padding: 12px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 950px) {
+    .container {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 40px;
+        gap: 16px;
+    }
+
+    .left-panel,
+    .right-panel,
+    .schedule-panel,
+    .notifications-panel,
+    .bookings-panel,
+    .create-room-panel {
+        grid-column: 1;
+        width: 100%;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    header {
+        padding: 25px 22px;
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+}
+
+@media (max-width: 520px) {
+    .container {
+        padding: 14px 10px 35px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    #bookingForm {
+        grid-template-columns: 1fr;
+    }
+
+    .map-hotspot {
+        padding: 2px 4px;
+        font-size: 8px;
+    }
+}
+
+
+
+/* CampusSpace visual refresh */
+
+:root {
+    --cs-dark: #122747;
+    --cs-blue: #2869d3;
+    --cs-light: #eff5ff;
+    --cs-line: #e5ebf4;
+}
+
+body {
+    background: #f4f7fc;
+    color: #1b2b43;
+}
+
+.site-header {
+    background:
+        radial-gradient(circle at 86% 15%,
+            rgba(85, 151, 244, .26), transparent 34%),
+        linear-gradient(115deg, #10213c, #1b416d);
+    padding: 38px 32px 44px;
+    border-bottom: none;
+}
+
+.header-inner {
+    max-width: 1450px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.brand-area {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    background: #4186f1;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 25px;
+    color: white;
+    box-shadow: 0 7px 24px rgba(36, 108, 220, .25);
+}
+
+.brand-area h1 {
+    color: white;
+    font-size: 23px;
+    margin: 0;
+    letter-spacing: -.6px;
+}
+
+.brand-area p {
+    color: #a5c1e8;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 2px 0 0;
+}
+
+.header-content {
+    max-width: 740px;
+}
+
+.eyebrow {
+    color: #80b5ff;
+    font-size: 11px;
+    letter-spacing: 2.2px;
+    font-weight: 750;
+}
+
+.header-content h2 {
+    color: white;
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    margin: 11px 0;
+}
+
+.header-content p {
+    font-size: 15px;
+    color: #c7d8f0;
+    max-width: 530px;
+    margin: 0;
+}
+
+.header-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255,255,255,.09);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 100px;
+    color: #d7eaff;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .6px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #69dca9;
+    border-radius: 50%;
+}
+
+.container {
+    max-width: 1510px;
+    padding-top: 26px;
+    gap: 20px;
+}
+
+.panel {
+    border: 1px solid var(--cs-line);
+    border-radius: 19px;
+    box-shadow: 0 9px 30px rgba(31, 64, 111, .045);
+    padding: 25px;
+}
+
+.panel h2 {
+    font-size: 20px;
+    letter-spacing: -.5px;
+}
+
+.search-section {
+    border-radius: 14px;
+    background: #f1f6ff;
+    padding: 19px;
+}
+
+.room-card {
+    border-radius: 13px;
+    border: 1px solid #e0e8f4;
+    padding: 16px;
+    background: #fbfdff;
+}
+
+.room-card:hover {
+    background: #edf5ff;
+    border-color: #8ab7fa;
+}
+
+.real-map-wrapper {
+    border-radius: 15px;
+    box-shadow: 0 7px 22px rgba(10, 30, 64, .1);
+}
+
+.map-hotspot {
+    background: #2468c6;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.map-hotspot:hover {
+    background: #65a4ff;
+}
+
+.map-hotspot.selected {
+    background: #ffca63 !important;
+    color: #182b44 !important;
+}
+
+.booking-section,
+.room-details {
+    border-top: 1px solid #e7edf5;
+}
+
+#bookBtn {
+    background: linear-gradient(100deg, #205ac0, #367fe8);
+    font-weight: 700;
+    border-radius: 10px;
+    box-shadow: 0 5px 14px rgba(35, 103, 204, .16);
+}
+
+#bookBtn:hover {
+    background: #225dbd;
+}
+
+.booking-card,
+.schedule-card,
+.notification-item {
+    border-radius: 13px;
+    background: #f9fbff;
+}
+
+@media (max-width: 950px) {
+    .site-header {
+        padding: 27px 20px 35px;
+    }
+
+    .header-inner {
+        gap: 22px;
+    }
+
+    .header-content h2 {
+        letter-spacing: -.8px;
+    }
+}
